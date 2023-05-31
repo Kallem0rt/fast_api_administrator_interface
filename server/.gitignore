@@ -1,0 +1,10 @@
+/.idea/shelf/
+/.idea/workspace.xml
+/core/__pycache__
+/core/dependies/__pycache__
+/core/models/__pycache__
+/routers/__pycache__
+/shemas/__pycache__
+/utils/__pycache__
+/college.db
+/volume

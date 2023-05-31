@@ -1,0 +1,160 @@
+input, select {
+    margin: 0.2em 0.5em;
+}
+  a#cr_tes {
+    background: #FFFFFF;
+border: 1px solid #C4C4C4;
+box-sizing: border-box;
+border-radius: 15px;
+    padding: 15px 25px;
+    color: #042955;
+  }
+  a#cr_tes:hover {
+    background: #EEEEEE;
+    border: 1px solid #042955;
+  }
+  #for_cr h2 {
+    margin: 1em 0;
+  }
+  #for_cr input[type="number"], #for_cr input[type="time"], #for_cr select, #for_cr input[type="date"], #for_cr input[type="text"] {
+    width: 15vw;
+    height: 2vw;
+    left: 30px;
+    top: 189px;
+    background: #FFFFFF;
+    border: 1px solid #928F8F;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 15px;
+  }
+
+	#for_cr input[type="color"] {
+		width: 15vw;
+	}
+  #for_cr select {
+    padding: 10px 15px;
+    font-size: 15px;
+}
+  #for_cr select {
+    appearance: none;
+    background: url(select.png) no-repeat right;
+    background-position-x: calc(100% - 20px);
+    background-size: 4.2%;
+    background-color: #FFF;
+	}
+  #for_cr label {
+    width: 9vw;
+    height: 2vw;
+    display: inline-block;
+  }
+  #for_cr input[type="submit"] {
+    font-size: 20px;
+    width: 250px;
+    background: #042955;
+    border-radius: 15px;
+    color: #fff;
+    border: none;
+  }
+  #for_cr input[type="submit"]:hover {
+    font-size: 20px;
+    width: 250px;
+    background: #4176ea;
+    border-radius: 15px;
+    color: #fff;
+    border: none;
+  }
+  /*PICKER*/
+  #color-picker{
+position: absolute;
+    right: 35%;
+    bottom: 0%;
+}
+#color-values{
+display:block;
+list-style:none;
+color:#222;
+float:left;
+margin:0 0 0 15px;
+padding: 5px;
+text-align:left;
+}
+#pcr_bg{
+height:135px;
+}
+
+ /* Common stuff */
+.picker-wrapper,
+.pcr-wrapper {
+    position: relative;
+    float: left;
+}
+.picker-indicator,
+.pcr-indicator {
+    position: absolute;
+    left: 0;
+    top: 0;
+}
+.picker,
+.pcr {
+    cursor: crosshair;
+    float: left;
+}
+
+
+@media screen and (max-width: 768px) {
+	#for_cr input[type="color"] {
+		width: 52%;
+	}
+#for_cr label {
+    width: 40%;
+    height: 15px;
+    display: inline-block;
+    font-size: 13px;
+}
+#for_cr input[type="number"], #for_cr input[type="time"], #for_cr select, #for_cr input[type="date"], #for_cr input[type="text"],#for_cr input {
+    width: 55%;
+    height: 40px;
+    background: #FFFFFF;
+    border: 1px solid #928F8F;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 1px 10px;
+    font-size: 11px;
+    margin: 0.2em 0.2em;
+}
+#for_cr select {
+    appearance: none;
+    background: url(select.png) no-repeat right;
+    background-position-x: calc(100% - 15px);
+    background-size: 4.2%;
+    background-color: #FFF;
+    font-size: 11px;
+}
+div#message {
+    margin: 10% 0;
+}
+#for_cr input[type="submit"] {
+    font-size: 20px;
+    width: 100%;
+    background: #042955;
+    border-radius: 15px;
+    color: #fff;
+    border: none;
+    margin-top: 1.5em;
+}
+}
+form {
+    position: relative;
+}
+
+.time_s, .time_f, .break_s {
+    width: 15vw;
+    height: 2vw;
+    left: 30px;
+    top: 189px;
+    background: #FFFFFF;
+    border: 1px solid #928F8F;
+    box-sizing: border-box;
+    border-radius: 15px;
+    padding: 15px;
+}

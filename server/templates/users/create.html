@@ -1,0 +1,43 @@
+<div id="message">
+  <!-- Latest compiled and minified CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  />
+
+  <!-- Latest compiled JavaScript -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.bundle.min.js"></script>
+  
+  
+  
+  
+  {% block css %}
+  <style>
+  </style>
+  {% endblock %}
+
+  <div id="create_label" class="col-lg-6 bg-light border border-primary rounded-3 p-3 mt-3">
+  <div id="for_cr">
+    <h2>Cоздание пользователя</h2>
+    <form id="create_event">
+      <label for="email" class="form-label">E-mail:</label>
+      <input type="text" id="email" class="form-control">
+      <br>
+      <label for="password" class="form-label">Password:</label>
+      <input type="password" id="password" class="form-control">
+      <br>
+      <label for="name" class="form-label">Name:</label>
+      <input type="text" id="name" class="form-control">
+      <br>
+      <input  class="btn btn-primary" type="submit" value="Создать">
+    
+    </form>
+  </div>
+  </div>
+    {% block javascript %}
+    <script type="text/javascript">
+    {% include "create.js" %}
+    </script>
+    {% endblock %}
+</div>
+    

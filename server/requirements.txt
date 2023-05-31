@@ -1,0 +1,10 @@
+fastapi==0.85.0
+fastapi_utils
+uvicorn==0.17.6
+Jinja2
+python-dotenv
+PyMySQL
+SQLAlchemy
+pydantic[email]
+python-multipart
+python-decouple
