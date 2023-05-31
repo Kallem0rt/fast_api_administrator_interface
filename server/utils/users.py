@@ -29,7 +29,8 @@ def get_random_string(length=12):
     return "".join(random.choice(string.ascii_letters) for _ in range(length))
 
 
-def hash_password(password: str, salt: str = None):
+def hash_password(password: str,
+                  salt: str = None):
     """ Хеширует пароль с солью """
     if salt is None:
         salt = get_random_string()
@@ -37,7 +38,8 @@ def hash_password(password: str, salt: str = None):
     return enc.hex()
 
 
-def validate_password(password: str, hashed_password: str):
+def validate_password(password: str,
+                      hashed_password: str):
     """ Проверяет, что хеш пароля совпадает с хешем из БД """
     salt, hashed = hashed_password.split("$")
     return hash_password(password, salt) == hashed

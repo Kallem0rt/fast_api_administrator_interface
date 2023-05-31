@@ -30,7 +30,9 @@ logger = logging.getLogger()
 
 
 @router.post("/sign-up")
-async def create_user(name: str = Form(), password: str = Form(), email: str = Form()):
+async def create_user(name: str = Form(),
+                      password: str = Form(),
+                      email: str = Form()):
     db_user = await users_utils.get_user_by_email(email=email)
     if db_user:
         raise HTTPException(status_code=400, detail="Email already registered")
@@ -39,7 +41,8 @@ async def create_user(name: str = Form(), password: str = Form(), email: str = F
 
 # response_model=users.TokenBase
 @router.post("/auth", response_model=users.TokenBase)
-async def auth(response: Response, form_data: OAuth2PasswordRequestForm = Depends()):
+async def auth(response: Response,
+               form_data: OAuth2PasswordRequestForm = Depends()):
     user = await users_utils.get_user_by_email(email=form_data.username)
     if not user:
         raise HTTPException(status_code=400, detail="Incorrect email or password")
@@ -120,6 +123,21 @@ def rec_webhook(user_id: int = Form(),
     user = delete_user(user_id)
     return f"Пользователь {user_id} удален пользователем {current_user['name']}"
 
+@router.post("/get-all-users")
+def rec_webhook(current_user: users.User = Depends(get_current_user)):
+    engine = db_connect()
+    Session = sessionmaker(bind=engine, autoflush=False)
+    session = Session()
+    logger.info(f"Просмотр пользователей пользователем {current_user['name']}")
+    users_list = list()
+    if current_user['superuser']:
+        users_list = session \
+            .query(user_list) \
+            .all()
+    session.close()
+    return users_list
+
+
 @router.on_event("startup")
 @repeat_every(seconds=60 * 60 * 24)  # 24 hour
 def remove_expired_tokens_task() -> None:
@@ -140,17 +158,3 @@ async def check_users_exists():
     session.close()
     if not users:
         return await users_utils.create_user(user={"name": "Test", "password": "Test", "email": "Test@mail.com", "superuser": 1})
-
-@router.post("/get-all-users")
-def rec_webhook(current_user: users.User = Depends(get_current_user)):
-    engine = db_connect()
-    Session = sessionmaker(bind=engine, autoflush=False)
-    session = Session()
-    logger.info(f"Просмотр пользователей пользователем {current_user['name']}")
-    users_list = list()
-    if current_user['superuser']:
-        users_list = session \
-            .query(user_list) \
-            .all()
-    session.close()
-    return users_list

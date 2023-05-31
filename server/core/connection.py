@@ -15,6 +15,5 @@ DATABASE = os.getenv("DATABASE")
 
 
 def db_connect():
-    ssl_args = {'ssl': {'ca': 'CA.pem'}}
     engine = create_engine('sqlite:///server.db?check_same_thread=False')
     return engine
