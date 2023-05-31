@@ -1,0 +1,1 @@
+# fast_api_administrator_interface
