@@ -18,5 +18,11 @@ async def get_current_user(token: str = Depends(oauth2_scheme)):
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, detail="Inactive user"
         )
-    me = {"id": user.id, "email": user.email, "name": user.name, "superuser": user.superuser,"token": token}
+    me = {
+        "id": user.id,
+        "email": user.email,
+        "name": user.name,
+        "superuser": user.superuser,
+        "token": token,
+    }
     return me

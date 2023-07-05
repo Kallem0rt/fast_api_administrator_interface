@@ -13,9 +13,7 @@ from server.core.models.users import tokens_table, users
 from server.shemas import users as user_shema
 
 Log_Format = "%(levelname)s %(asctime)s - %(message)s"
-logging.basicConfig(stream=sys.stdout,
-                    format=Log_Format,
-                    level=logging.INFO)
+logging.basicConfig(stream=sys.stdout, format=Log_Format, level=logging.INFO)
 logger = logging.getLogger()
 
 
@@ -25,32 +23,27 @@ session = Session()
 
 
 def get_random_string(length=12):
-    """ Генерирует случайную строку, использующуюся как соль """
+    """Генерирует случайную строку, использующуюся как соль"""
     return "".join(random.choice(string.ascii_letters) for _ in range(length))
 
 
-def hash_password(password: str,
-                  salt: str = None):
-    """ Хеширует пароль с солью """
+def hash_password(password: str, salt: str = None):
+    """Хеширует пароль с солью"""
     if salt is None:
         salt = get_random_string()
     enc = hashlib.pbkdf2_hmac("sha256", password.encode(), salt.encode(), 100_000)
     return enc.hex()
 
 
-def validate_password(password: str,
-                      hashed_password: str):
-    """ Проверяет, что хеш пароля совпадает с хешем из БД """
+def validate_password(password: str, hashed_password: str):
+    """Проверяет, что хеш пароля совпадает с хешем из БД"""
     salt, hashed = hashed_password.split("$")
     return hash_password(password, salt) == hashed
 
 
 async def get_user_by_email(email: str):
-    """ Возвращает информацию о пользователе """
-    event = session \
-        .query(users) \
-        .filter(users.email == email) \
-        .first()
+    """Возвращает информацию о пользователе"""
+    event = session.query(users).filter(users.email == email).first()
     session.close()
     if event:
         return event
@@ -59,16 +52,10 @@ async def get_user_by_email(email: str):
 
 
 async def get_user_by_token(token: str):
-    """ Возвращает информацию о владельце указанного токена """
-    event = session \
-        .query(tokens_table) \
-        .filter(tokens_table.token == token) \
-        .first()
+    """Возвращает информацию о владельце указанного токена"""
+    event = session.query(tokens_table).filter(tokens_table.token == token).first()
     if event:
-        tokens = session \
-            .query(users) \
-            .filter(users.id == event.user_id) \
-            .first()
+        tokens = session.query(users).filter(users.id == event.user_id).first()
         session.close()
         return tokens
     else:
@@ -77,11 +64,11 @@ async def get_user_by_token(token: str):
 
 
 async def create_user_token(user_id: int):
-    """ Создает токен для пользователя с указанным user_id """
+    """Создает токен для пользователя с указанным user_id"""
     event = tokens_table(
         token=f"{uuid.uuid4()}",
         expires=datetime.now() + timedelta(weeks=2),
-        user_id=user_id
+        user_id=user_id,
     )
     session.add(event)
     session.commit()
@@ -91,32 +78,33 @@ async def create_user_token(user_id: int):
 
 
 async def create_user(user: user_shema.UserCreate):
-    """ Создает нового пользователя в БД """
+    """Создает нового пользователя в БД"""
     salt = get_random_string()
-    hashed_password = hash_password(user['password'], salt)
+    hashed_password = hash_password(user["password"], salt)
     event = users(
-        email=user['email'], 
-        name=user['name'], 
+        email=user["email"],
+        name=user["name"],
         hashed_password=f"{salt}${hashed_password}",
         is_active=1,
-        superuser=0 if not user['superuser'] else 1)
+        superuser=0 if not user["superuser"] else 1,
+    )
     session.add(event)
     session.commit()
-    token = await  create_user_token(event.id)
+    token = await create_user_token(event.id)
     token_dict = {"token": token.token, "expires": token.expires}
     return token_dict
 
+
 def delete_user(user_id: int):
-    user = session \
-        .query(users) \
-        .filter(users.id == user_id) \
-        .delete()
+    user = session.query(users).filter(users.id == user_id).delete()
     session.commit()
     return user
 
+
 def remove_expires_token():
-    tokens = session \
-        .query(tokens_table) \
-        .filter(tokens_table.expires < datetime.now()) \
+    tokens = (
+        session.query(tokens_table)
+        .filter(tokens_table.expires < datetime.now())
         .delete()
+    )
     session.commit()
